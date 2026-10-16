@@ -1,0 +1,44 @@
+[
+  {
+    "command": "python run_all.py --student-id ug2527343@ines.ac.rw --seed 7343",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "stdout": "AI-A2-7343 \nSHA-256: 19a1558643adbce326107d7fcfb9df4a8cd48cf745f2af43b8e07af6b6975d62\nregression LinearRegression {'mae': 0.7967032914337763, 'rmse': 0.9709049064598064, 'r2': 0.8702152124408429}\nclassification LogisticRegression {'precision': 0.9666666666666667, 'recall': 0.9354838709677419, 'f1': 0.9508196721311475, 'confusion_matrix': [[29, 1], [2, 29]], 'roc_auc': 0.989247311827957}\nSelected K: 2 Silhouettes: {'2': 0.15658747030260753, '3': 0.13649622224245658, '4': 0.1360225628313596, '5': 0.13808832595085752, '6': 0.13715581796823964}\nRows: {'raw_rows': 247, 'clean_rows': 244, 'duplicate_rows': 3, 'missing_raw': {'rainfall_mm': 0, 'avg_temp_c': 0, 'soil_moisture_pct': 12, 'fertilizer_kg': 12, 'field_size_ha': 0, 'season': 0, 'cooperative_support': 0, 'yield_tons': 0, 'high_risk': 0}, 'missing_clean': {'rainfall_mm': 0, 'avg_temp_c': 0, 'soil_moisture_pct': 12, 'fertilizer_kg': 12, 'field_size_ha': 0, 'season': 0, 'cooperative_support': 0, 'yield_tons': 0, 'high_risk': 0}, 'train_rows': 183, 'test_rows': 61, 'split': '75/25 stratified high_risk; random_state=7343', 'row_id': 'zero-based original CSV data-row position'}\nGenerated artifacts: artifacts\\classification_metrics.json, artifacts\\clustering_report.json, artifacts\\data_fingerprint.txt, artifacts\\data_quality.json, artifacts\\plots\\clusters.png, artifacts\\plots\\confusion_matrix.png, artifacts\\plots\\residuals.png, artifacts\\projection.json, artifacts\\regression_metrics.json, artifacts\\test_predictions.csv, models\\classification.joblib, models\\clustering.joblib, models\\model_info.json, models\\regression.joblib\n",
+    "stderr": ""
+  },
+  {
+    "command": "python run_all.py --student-id ug2527343@ines.ac.rw --seed 7343",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "stdout": "AI-A2-7343 \nSHA-256: 19a1558643adbce326107d7fcfb9df4a8cd48cf745f2af43b8e07af6b6975d62\nregression LinearRegression {'mae': 0.7967032914337763, 'rmse': 0.9709049064598064, 'r2': 0.8702152124408429}\nclassification LogisticRegression {'precision': 0.9666666666666667, 'recall': 0.9354838709677419, 'f1': 0.9508196721311475, 'confusion_matrix': [[29, 1], [2, 29]], 'roc_auc': 0.989247311827957}\nSelected K: 2 Silhouettes: {'2': 0.15658747030260753, '3': 0.13649622224245658, '4': 0.1360225628313596, '5': 0.13808832595085752, '6': 0.13715581796823964}\nRows: {'raw_rows': 247, 'clean_rows': 244, 'duplicate_rows': 3, 'missing_raw': {'rainfall_mm': 0, 'avg_temp_c': 0, 'soil_moisture_pct': 12, 'fertilizer_kg': 12, 'field_size_ha': 0, 'season': 0, 'cooperative_support': 0, 'yield_tons': 0, 'high_risk': 0}, 'missing_clean': {'rainfall_mm': 0, 'avg_temp_c': 0, 'soil_moisture_pct': 12, 'fertilizer_kg': 12, 'field_size_ha': 0, 'season': 0, 'cooperative_support': 0, 'yield_tons': 0, 'high_risk': 0}, 'train_rows': 183, 'test_rows': 61, 'split': '75/25 stratified high_risk; random_state=7343', 'row_id': 'zero-based original CSV data-row position'}\nGenerated artifacts: artifacts\\classification_metrics.json, artifacts\\clustering_report.json, artifacts\\data_fingerprint.txt, artifacts\\data_quality.json, artifacts\\plots\\clusters.png, artifacts\\plots\\confusion_matrix.png, artifacts\\plots\\residuals.png, artifacts\\projection.json, artifacts\\regression_metrics.json, artifacts\\test_predictions.csv, models\\classification.joblib, models\\clustering.joblib, models\\model_info.json, models\\regression.joblib\n",
+    "stderr": ""
+  },
+  {
+    "command": "python predict.py --json samples/valid.json",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "stdout": "{\n  \"predicted_yield_tons\": 12.4816924638537,\n  \"predicted_high_risk\": 0,\n  \"high_risk_probability\": 0.33931241711599996,\n  \"cluster\": 0,\n  \"verification_code\": \"AI-A2-7343\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python predict.py --json samples/invalid.json",
+    "exit_code": 2,
+    "expected_exit_code": 2,
+    "stdout": "",
+    "stderr": "Input/model error: 3 validation errors for FarmRecord\nrainfall_mm\n  Input should be less than or equal to 1400 [type=less_than_equal, input_value=1500, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.14/v/less_than_equal\navg_temp_c\n  Input should be a valid number [type=float_type, input_value='warm', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/float_type\nseason\n  Input should be 'A' or 'B' [type=literal_error, input_value='C', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/literal_error\n"
+  },
+  {
+    "command": "python run_all.py --student-id ug2527343@ines.ac.rw --seed 0",
+    "exit_code": 2,
+    "expected_exit_code": 2,
+    "stdout": "",
+    "stderr": "Error: Expected --student-id ug2527343@ines.ac.rw --seed 7343; incorrect identity or seed.\n"
+  },
+  {
+    "command": "python -m pytest -q -ra",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "stdout": "............................                                             [100%]\n============================== warnings summary ===============================\n.venv\\lib\\site-packages\\fastapi\\testclient.py:1\n  D:\\AI\\AI_A2_2527343\\.venv\\lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n28 passed, 1 warning in 17.36s\n",
+    "stderr": ""
+  }
+]

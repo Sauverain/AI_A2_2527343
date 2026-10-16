@@ -1,0 +1,42 @@
+{
+  "scores": {
+    "2": 0.15658747030260753,
+    "3": 0.13649622224245658,
+    "4": 0.1360225628313596,
+    "5": 0.13808832595085752,
+    "6": 0.13715581796823964
+  },
+  "selected_k": 2,
+  "selection_reason": "Maximum silhouette on scaled training inputs; no targets used.",
+  "profiles": {
+    "0": {
+      "size": 86,
+      "means_observed": {
+        "rainfall_mm": 1017.9481686046513,
+        "avg_temp_c": 19.74349069767442,
+        "soil_moisture_pct": 50.61193333333333,
+        "fertilizer_kg": 126.98441927710842,
+        "field_size_ha": 2.010052325581395,
+        "cooperative_support": 1.0
+      },
+      "season_A_fraction": 0.47674418604651164,
+      "interpretation": "Training group 0: 86 farms; mean rainfall 1017.9 mm, temperature 19.7 C, field size 2.01 ha and support fraction 1.00. Use these measured similarities for field-visit planning, subject to officer review."
+    },
+    "1": {
+      "size": 97,
+      "means_observed": {
+        "rainfall_mm": 989.9697092783506,
+        "avg_temp_c": 19.468819587628865,
+        "soil_moisture_pct": 49.92202473118279,
+        "fertilizer_kg": 118.80102307692309,
+        "field_size_ha": 2.0092123711340206,
+        "cooperative_support": 0.0
+      },
+      "season_A_fraction": 0.5979381443298969,
+      "interpretation": "Training group 1: 97 farms; mean rainfall 990.0 mm, temperature 19.5 C, field size 2.01 ha and support fraction 0.00. Use these measured similarities for field-visit planning, subject to officer review."
+    }
+  },
+  "profile_scope": "Training farms; numeric means exclude missing measurements.",
+  "seed": 7343,
+  "verification_code": "AI-A2-7343"
+}

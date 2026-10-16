@@ -1,0 +1,19 @@
+{
+  "verification_code": "AI-A2-7343",
+  "seed": 7343,
+  "features": [
+    "rainfall_mm",
+    "avg_temp_c",
+    "soil_moisture_pct",
+    "fertilizer_kg",
+    "field_size_ha",
+    "cooperative_support",
+    "season"
+  ],
+  "selected_k": 2,
+  "regression": "LinearRegression",
+  "classification": "LogisticRegression",
+  "dataset_sha256": "19a1558643adbce326107d7fcfb9df4a8cd48cf745f2af43b8e07af6b6975d62",
+  "synthetic_data": true,
+  "decision_threshold": 0.5
+}

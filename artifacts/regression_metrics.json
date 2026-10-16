@@ -1,0 +1,29 @@
+{
+  "verification_code": "AI-A2-7343",
+  "seed": 7343,
+  "candidates": {
+    "DummyRegressor": {
+      "mae": 2.175324796201738,
+      "rmse": 2.7147612989226886,
+      "r2": -0.014690741461258261
+    },
+    "LinearRegression": {
+      "mae": 0.7967032914337763,
+      "rmse": 0.9709049064598064,
+      "r2": 0.8702152124408429
+    },
+    "RandomForestRegressor": {
+      "mae": 0.9501208278688525,
+      "rmse": 1.2217230905310876,
+      "r2": 0.7944980424507363
+    }
+  },
+  "selected_model": "LinearRegression",
+  "selected_metrics": {
+    "mae": 0.7967032914337763,
+    "rmse": 0.9709049064598064,
+    "r2": 0.8702152124408429
+  },
+  "selection_reason": "Lowest held-out RMSE.",
+  "selection_limitation": "Selection uses this test split as assignment permits; an independent external evaluation is still needed."
+}

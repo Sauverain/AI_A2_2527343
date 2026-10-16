@@ -1,0 +1,7 @@
+{
+  "method": "PCA, training features only",
+  "explained_variance_ratio": [
+    0.1970132491887406,
+    0.16729953267285413
+  ]
+}

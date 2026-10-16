@@ -1,0 +1,11 @@
+{
+  "verification_code": "AI-A2-7343",
+  "report_pages": 7,
+  "metric_tables_match_json": true,
+  "fingerprint_matches": true,
+  "text_within_page_bounds": true,
+  "forbidden_identity_values_found": false,
+  "rendered_pages": 7,
+  "rubric_categories": 10,
+  "rubric_marks_total": 100
+}

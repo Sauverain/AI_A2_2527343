@@ -1,0 +1,31 @@
+{
+  "raw_rows": 247,
+  "clean_rows": 244,
+  "duplicate_rows": 3,
+  "missing_raw": {
+    "rainfall_mm": 0,
+    "avg_temp_c": 0,
+    "soil_moisture_pct": 12,
+    "fertilizer_kg": 12,
+    "field_size_ha": 0,
+    "season": 0,
+    "cooperative_support": 0,
+    "yield_tons": 0,
+    "high_risk": 0
+  },
+  "missing_clean": {
+    "rainfall_mm": 0,
+    "avg_temp_c": 0,
+    "soil_moisture_pct": 12,
+    "fertilizer_kg": 12,
+    "field_size_ha": 0,
+    "season": 0,
+    "cooperative_support": 0,
+    "yield_tons": 0,
+    "high_risk": 0
+  },
+  "train_rows": 183,
+  "test_rows": 61,
+  "split": "75/25 stratified high_risk; random_state=7343",
+  "row_id": "zero-based original CSV data-row position"
+}

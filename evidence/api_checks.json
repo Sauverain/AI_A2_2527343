@@ -1,0 +1,146 @@
+[
+  {
+    "method": "GET",
+    "url": "/health",
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "models_ready": true
+    }
+  },
+  {
+    "method": "GET",
+    "url": "/model-info",
+    "status": 200,
+    "body": {
+      "verification_code": "AI-A2-7343",
+      "seed": 7343,
+      "features": [
+        "rainfall_mm",
+        "avg_temp_c",
+        "soil_moisture_pct",
+        "fertilizer_kg",
+        "field_size_ha",
+        "cooperative_support",
+        "season"
+      ],
+      "selected_k": 2,
+      "regression": "LinearRegression",
+      "classification": "LogisticRegression",
+      "dataset_sha256": "19a1558643adbce326107d7fcfb9df4a8cd48cf745f2af43b8e07af6b6975d62",
+      "synthetic_data": true,
+      "decision_threshold": 0.5
+    }
+  },
+  {
+    "method": "GET",
+    "url": "/docs",
+    "status": 200,
+    "body": "Swagger HTML returned"
+  },
+  {
+    "method": "POST",
+    "url": "/predict",
+    "status": 200,
+    "body": {
+      "predicted_yield_tons": 12.4816924638537,
+      "predicted_high_risk": 0,
+      "high_risk_probability": 0.33931241711599996,
+      "cluster": 0,
+      "verification_code": "AI-A2-7343"
+    }
+  },
+  {
+    "method": "POST",
+    "url": "/predict",
+    "status": 422,
+    "body": {
+      "detail": [
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "rainfall_mm"
+          ],
+          "msg": "Field required",
+          "input": {}
+        },
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "avg_temp_c"
+          ],
+          "msg": "Field required",
+          "input": {}
+        },
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "soil_moisture_pct"
+          ],
+          "msg": "Field required",
+          "input": {}
+        },
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "fertilizer_kg"
+          ],
+          "msg": "Field required",
+          "input": {}
+        },
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "field_size_ha"
+          ],
+          "msg": "Field required",
+          "input": {}
+        },
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "season"
+          ],
+          "msg": "Field required",
+          "input": {}
+        },
+        {
+          "type": "missing",
+          "loc": [
+            "body",
+            "cooperative_support"
+          ],
+          "msg": "Field required",
+          "input": {}
+        }
+      ]
+    }
+  },
+  {
+    "method": "POST",
+    "url": "/predict",
+    "status": 422,
+    "body": {
+      "detail": [
+        {
+          "type": "json_invalid",
+          "loc": [
+            "body",
+            1
+          ],
+          "msg": "JSON decode error",
+          "input": {},
+          "ctx": {
+            "error": "Expecting property name enclosed in double quotes"
+          }
+        }
+      ]
+    }
+  }
+]
