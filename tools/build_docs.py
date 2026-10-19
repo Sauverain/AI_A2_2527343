@@ -1,5 +1,7 @@
 """Build seven-page evidence-based report and unsigned personal documents."""
+import argparse
 import json
+import re
 import platform
 import sys
 from pathlib import Path
@@ -41,7 +43,7 @@ def pdf(path, story):
 def load(path):
     return json.loads((ROOT / path).read_text(encoding='utf-8'))
 
-def main():
+def main(report_only=False):
     """Generate documentation from saved measurements, never estimated results."""
     reg, clf, cluster = [load('artifacts/' + n) for n in ['regression_metrics.json','classification_metrics.json','clustering_report.json']]
     quality = load('artifacts/data_quality.json')
@@ -80,7 +82,16 @@ Your interpretation: [describe a useful cooperative action and why a cluster is 
 ## Reflection
 [Explain what you personally learned, what you checked, and one change you can defend. Do not sign the declaration until it is accurate.]
 """
-    (ROOT / 'docs/PERSONAL_REVIEW.md').write_text(review, encoding='utf-8')
+    review_path = ROOT / 'docs/PERSONAL_REVIEW.md'
+    if not review_path.exists():
+        review_path.write_text(review, encoding='utf-8')
+    reviewed = review_path.read_text(encoding='utf-8')
+    sections = {}
+    for number, title in enumerate(['Regression Interpretation', 'Classification Interpretation', 'Clustering Interpretation', 'Personal Reflection'], 1):
+        match = re.search(r'^## ' + str(number) + r'\. ' + title + r'\s*\n(.*?)(?=^## |\Z)', reviewed, re.M | re.S)
+        if not match or not match.group(1).strip():
+            raise ValueError(f'Missing reviewed section: {title}')
+        sections[title] = [text.strip() for text in match.group(1).strip().split('\n\n') if text.strip()]
     story = []
     def page(title, content):
         if story: story.append(PageBreak())
@@ -91,7 +102,7 @@ Your interpretation: [describe a useful cooperative action and why a cluster is 
         Spacer(1,14), p('A Musanze potato cooperative needs to consolidate inconsistent farm records into estimates that support harvest collection and field visits. The field officer remains the decision maker.'),
         table([['Task', 'Question and output'], ['Regression', 'How many tons will this farm harvest? Output: predicted_yield_tons.'], ['Classification', 'Is synthetic yield per hectare below the base-data median? Output: high-risk label and probability.'], ['Clustering', 'Which farms have similar measured conditions? Output: cluster membership.']],[90,421]),
         Paragraph('Ethical boundary', S['Heading2']), p('This is a classroom prototype trained entirely on synthetic data. It must not replace an agronomist or decide access to finance, insurance or public services. A high-risk label is a dataset definition, not a diagnosis of crop disease or a verified forecast of farm failure.'),
-        p('AI-assisted implementation and draft explanations are disclosed in evidence/AI_USE.md. The student must personally review, rewrite and defend the interpretations in docs/PERSONAL_REVIEW.md. The declaration is unsigned and the authentic demonstration is pending.')])
+        p('AI-assisted implementation and draft explanations are disclosed in evidence/AI_USE.md. The interpretations and reflection in this report are taken from docs/PERSONAL_REVIEW.md, which the student confirmed as completed and reviewed. No signature or authentic demonstration is certified by this report update.')])
     dictionary = [['Column', 'Meaning / range']]+[[k, f'{a} to {b}; '+('binary' if k=='cooperative_support' else 'numeric')] for k,(a,b) in BOUNDS.items()]+[['season','A or B'],['yield_tons','Synthetic harvest target; minimum 0.50 tons'],['high_risk','1 if pre-missingness yield/ha is below base median; otherwise 0']]
     page('2. Data and reproducibility', [table(dictionary,[155,356]), Spacer(1,9),
         p('Seed = last four registration digits = 7343. numpy.random.default_rng(7343); base rows = 240 + (7343 % 41) = 244. Labels are created before missingness, using unrounded generated values. The median is part of the specified synthetic label generator, not a fitted prediction-time feature.'),
@@ -110,13 +121,16 @@ Your interpretation: [describe a useful cooperative action and why a cluster is 
         p(f"Selected: {reg['selected_model']} (lowest RMSE); {clf['selected_model']} (highest F1). Positive class = 1, probability threshold = 0.5. All candidates share the same held-out farms.",True),
         Table([[Image(str(ROOT/'artifacts/plots/residuals.png'),width=267,height=151),Image(str(ROOT/'artifacts/plots/confusion_matrix.png'),width=224,height=169)]]),
         p('Residual sign in the plot is actual minus predicted; the CSV uses predicted minus actual. Confusion-matrix rows are actual classes, columns predicted classes. ROC-AUC uses probabilities and is reported only with both true classes.',True),
-        p(regression_note,True), p(classification_note,True), p('These are AI-assisted factual interpretation drafts. Student review and personal wording are required before final submission; see docs/PERSONAL_REVIEW.md.',True)])
+        *[p(text,True) for text in sections['Regression Interpretation']],
+        *[p(text,True) for text in sections['Classification Interpretation']],
+        p('High risk here means below-median synthetic yield per hectare, not a verified crop-failure event.',True)])
     page('5. Clustering and operational meaning', [table([['K','Training silhouette']]+[[k,f'{v:.5f}'] for k,v in cluster['scores'].items()],[100,411]),
         p(f"Selected K={cluster['selected_k']} maximizes silhouette among the five candidates. The low best score ({max(cluster['scores'].values()):.3f}) indicates weak separation. Here the groups split exactly by cooperative support; other mean conditions are similar. Silhouette does not establish agronomic validity. Cluster IDs are arbitrary; no target enters fitting."),
         Image(str(ROOT/'artifacts/plots/clusters.png'),width=440,height=249),
         p('The PCA projection is fitted on training inputs; axes show the explained variance of each principal component. Separation in two dimensions may conceal overlap in the full feature space.',True),
         *[p(v['interpretation'],True) for v in cluster['profiles'].values()],
-        p('Profiles use observed numeric means (missing measurements omitted) and include season proportions in the JSON. These groups may help coordinate visits or compare similar farms. They do not identify causal interventions. Student: choose a measured cluster and rewrite its operational interpretation in PERSONAL_REVIEW.md.',True)])
+        p('Profiles use observed numeric means (missing measurements omitted) and include season proportions in the JSON. They do not identify causal interventions.',True),
+        *[p(text,True) for text in sections['Clustering Interpretation']]])
     page('6. API contract and actual testing', [table([['Endpoint','Contract'],['GET /health','200: status and models_ready. Missing artifacts produce degraded health.'],['GET /model-info','200: selected models, features, K, seed, verification code and fingerprint; 503 if unavailable.'],['POST /predict','Seven required bounded fields -> yield, risk label, probability, cluster and verification code. Invalid input -> 422 with field details; unavailable models -> 503.'],['GET /docs','Swagger UI; /openapi.json describes typed request and response.']],[135,376]),
         p('Valid request: '+(ROOT/'samples/valid.json').read_text(),True),
         p('Actual CLI response: '+next(x['stdout'] for x in runs if x['command']=='python predict.py --json samples/valid.json'),True),
@@ -126,9 +140,13 @@ Your interpretation: [describe a useful cooperative action and why a cluster is 
         p('FastAPI TestClient verified health, model-info, docs, valid prediction, missing-field validation and malformed JSON. Explicit endpoint responses are saved in evidence/api_checks.json. No authentic video or student signature is claimed. No live browser interaction, load test or real agricultural validation is claimed here.')])
     page('7. Responsible AI model card', [table([['Aspect','Scope and limitation'],['Intended user / use','Cooperative field officers; classroom harvest planning and prioritization support.'],['Data provenance','244 synthetic base farms. No actual farm measurements, farmer identities or consented field outcomes.'],['Target meaning','High risk means below-median synthetic tons/ha, not disease, poverty or an independently validated failure event.'],['Performance scope','One fixed split. Test evidence is also used for model selection. Small sample and random missingness constrain reliability.'],['Risks','Overconfident estimates, unfair service allocation, synthetic correlations, measurement errors and failure under distribution shift.'],['Prohibited use','Automatic finance, insurance or public-service access decisions; replacing an agronomist.'],['Human oversight','Confirm farm measurements, inspect uncertain cases and obtain agronomist advice before action. Avoid punitive interpretations of risk labels.'],['Security / privacy','No authentication or production rate limiting. Bind locally. Load only trusted joblib files, which can execute code. Collect minimal farmer data in any future deployment.']],[128,383]),
         Spacer(1,12), p('Improvement plan: gather representative real seasonal data with consent, verify measurement quality, use separate validation/test sets, test subgroup performance, quantify harvest uncertainty and calibrate risk probabilities. Compare richer temperature features under training-only cross-validation. Monitor drift and document retraining decisions.'),
-        Paragraph('Personal reflection awaiting student review',S['Heading2']), p('The factual error and cluster analyses are AI-assisted drafts, not invented student reflections. Alain Sauverain ISHEMA must review the editable worksheet, explain the actual results in personal wording, and confirm that the declaration matches the work performed. The required continuous personal video and handwritten card remain outstanding.'),
+        Paragraph('Personal reflection',S['Heading2']),
+        *[p(text,True) for text in sections['Personal Reflection']],
         p('Source: supplied eight-page INES Ruhengeri SWE 3513 Individual Assignment 2 PDF, issued 16 October 2026. All numerical claims in this report are read from the accompanying generated artifacts.')])
     pdf(ROOT/'docs/AI_A2_2527343_REPORT.pdf', story)
+    if report_only:
+        print('Generated technical report only; personal worksheet and declaration preserved.')
+        return
     log_story = [Paragraph('Executed test log', S['Heading1']),p(f'{NAME} | {STUDENT_ID} | {CODE}'),p('Actual subprocess captures from tools/verify.py. Expected nonzero validation exits count as successful rejection checks. No skipped or failed runs are hidden from this log.')]
     for run in runs:
         log_story += [Paragraph(escape(run['command']), S['Heading2']),p(f"Exit {run['exit_code']}; expected {run['expected_exit_code']}"),p(run['stdout'] or '[no stdout]',True),p(run['stderr'] or '[no stderr]',True)]
@@ -228,10 +246,12 @@ Row IDs are zero-based CSV data-row positions before deduplication. CSV regressi
 
 **PROVISIONAL**: authentic continuous unedited <=2-minute video, signature, and personally rewritten error/cluster interpretations are pending. Review AI_USE.md and the declaration for truthfulness. No personal reflection or video is claimed complete. Deadline: 19 October 2026, 5:00 PM CAT; Moodle timestamp is authoritative.
 
-Repository URL: no remote configured at preparation time. Obtain the real current commit using `git log -1 --format=%H`; the package's evidence/FINAL_COMMIT.txt records the packaged implementation commit. A commit cannot embed its own hash in its tracked README. After personal edits, commit again and record the final hash for the video.
+Repository URL: https://github.com/Sauverain/AI_A2_2527343
+
+Obtain the current commit using `git log -1 --format=%H`; the package's evidence/FINAL_COMMIT.txt records the packaged implementation commit. After personal edits, commit again and use the final hash for the video.
 
 ```powershell
-git remote add origin <YOUR_ACTUAL_GITHUB_REPOSITORY_URL>
+git remote add origin https://github.com/Sauverain/AI_A2_2527343.git
 git push -u origin HEAD
 ```
 
@@ -246,4 +266,7 @@ The seed fixes the random sequence, and SHA-256 checks CSV bytes. Deduplication 
     pdf(ROOT/'docs/RUBRIC_AUDIT.pdf',[Paragraph('Rubric evidence audit - not a grade',S['Heading1']),p('All ten categories total 100 marks. This maps evidence to requirements; it does not award marks or certify student authorship.'),table(rubric,[137,42,332])])
     print('Generated report, test log, unsigned declaration, README, disclosure and rubric audit.')
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--report-only', action='store_true', help='Update only the technical report; preserve all other documents.')
+    main(report_only=parser.parse_args().report_only)

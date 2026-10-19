@@ -1,0 +1,16 @@
+{
+  "protected_files_sha256": {
+    "docs\\PERSONAL_REVIEW.md": "44c291924e92e3ae9b6100e228f6bd6c7b859359b4e2152ef4e9d23d36e1efd2",
+    "evidence\\AI_A2_2527343_DECLARATION.pdf": "2b3d405af5faa9a1f3bfa946aa42f4a38454c38fa2af95bff773d2e19621cd5c",
+    "models\\classification.joblib": "b4f7e15186dc4e82dbe06e296a8c314e6bd534aac76860a46cae85f16c90eb7a",
+    "models\\clustering.joblib": "d16ad7aa183216f945bf08718c2b1cf4e4a974c2a6d7010fd42a003e9bbfe6d9",
+    "models\\model_info.json": "7dc4e04ea930f65d84d16327fc2409c94f441e42bc85fe1c5135cd7d066c84fa",
+    "models\\regression.joblib": "9cc1268ed273acb542c78ed22937463cea061d8822c2b5dae24b5a341ac7c288",
+    "data\\AI_A2_2527343.csv": "19a1558643adbce326107d7fcfb9df4a8cd48cf745f2af43b8e07af6b6975d62"
+  },
+  "all_protected_files_unchanged": true,
+  "numerical_examples_match": true,
+  "reviewed_paragraphs_present_verbatim": true,
+  "report_pages": 7,
+  "report_only_command": "python tools/build_docs.py --report-only"
+}

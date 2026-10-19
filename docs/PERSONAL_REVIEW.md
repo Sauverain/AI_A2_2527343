@@ -1,23 +1,41 @@
-# Personal interpretation worksheet — AI-assisted draft
+# Personal Interpretation of AI Model Results
 
-Alain Sauverain ISHEMA | 25/27343 | ug2527343@ines.ac.rw | AI-A2-7343
+**Student:** Alain Sauverain ISHEMA  
+**Registration Number:** 25/27343  
+**Email:** ug2527343@ines.ac.rw  
+**Verification Code:** AI-A2-7343  
+**Course:** SWE 3513 – Artificial Intelligence
 
-The assignment requires your own interpretations. The factual examples below were generated from artifacts; they are not presented as your personal reflections. Check the row values in artifacts/test_predictions.csv, rewrite each explanation in your own words, and update the report using tools/build_docs.py or edit its source text after understanding it.
+## 1. Regression Interpretation
 
-## Regression evidence
-CSV row 2: actual 12.9863 tons; predicted 10.7003; predicted minus actual -2.2860 tons. This is the largest absolute test error. Such an error could distort transport and storage planning. Missing measurements, noise and the linear model's inability to represent the temperature kink are plausible contributors, not a proven explanation for this row.
+In row 2, the actual harvest was 12.9863 tons, while the model predicted 10.7003 tons. This gives an error of -2.2860 tons. The negative value means that the model predicted a smaller harvest than the actual harvest.
 
-Your interpretation: [write what the signed error means, why it matters locally, and what additional measurement you would check]
+This error is important because farmers and cooperatives in Musanze may use harvest predictions to plan transport, storage and sales. If the prediction is too low, they might not prepare enough transport or storage space.
 
-## Classification evidence
-CSV row 28: actual risk 1, predicted 0, probability 0.4500. This false negative could cause a field officer to overlook a farm needing assessment.
+To understand this error better, I would check the rainfall, temperature and field size measurements. These values can affect harvest predictions. I would also compare the prediction with actual farm records before using it for important decisions.
 
-Your interpretation: [explain the practical cost of this actual error and the role of human review]
+## 2. Classification Interpretation
 
-## Cluster evidence
-Training group 0: 86 farms; mean rainfall 1017.9 mm, temperature 19.7 C, field size 2.01 ha and support fraction 1.00. Use these measured similarities for field-visit planning, subject to officer review.
+In row 28, the actual risk class was 1, but the model predicted 0, with a high-risk probability of 0.4500. This is called a false negative because the model failed to identify a farm that was actually high risk.
 
-Your interpretation: [describe a useful cooperative action and why a cluster is not a risk label]
+This mistake could be serious because an agricultural officer might think the farm is safe and fail to provide support on time.
 
-## Reflection
-[Explain what you personally learned, what you checked, and one change you can defend. Do not sign the declaration until it is accurate.]
+For this reason, I think AI predictions should support human decisions instead of replacing them. Agricultural officers should review uncertain predictions and check the farm's actual condition before making a final decision.
+
+## 3. Clustering Interpretation
+
+Cluster 0 contains 86 farms with similar characteristics. Their average rainfall was 1017.9 mm, average temperature was 19.7°C and average field size was 2.01 hectares. All farms in this training group had cooperative support.
+
+This information could help agricultural cooperatives plan field visits and training activities. For example, officers could organize group training sessions for farmers with similar conditions instead of visiting each farm separately.
+
+However, being in the same cluster does not mean that the farms have the same level of risk. Clustering only shows similarities between the farm records. Each farm still needs individual assessment when necessary.
+
+## 4. Personal Reflection
+
+This project shows how artificial intelligence can support agricultural planning. Regression helps estimate harvest quantities, classification helps identify possible risks, and clustering helps group farms with similar characteristics.
+
+One important lesson from the results is that AI models can make mistakes. For example, the regression model underestimated one harvest, and the classification model failed to identify one high-risk farm. This means AI predictions should be checked before they are used for important agricultural decisions.
+
+One improvement I would recommend is adding a review process for farms with uncertain risk predictions. This would allow agricultural officers to examine those farms more carefully instead of relying only on the model.
+
+I also understand that the project uses synthetic data. Therefore, the results are suitable for learning and demonstrating machine learning, but the system would need further testing with real agricultural data before practical use.

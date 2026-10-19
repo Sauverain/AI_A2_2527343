@@ -49,7 +49,7 @@ Strict shared Pydantic schema rejects missing/extra fields, wrong types, numeric
 - src/: configuration, validation, preprocessing, separate model candidates, clustering, metrics and shared inference.
 - models/: three complete saved pipelines plus model_info.json.
 - artifacts/: fingerprint, data quality, regression/classification metrics, cluster report, PCA variance, held-out prediction CSV, residuals/confusion matrix/cluster plots.
-- tests/: meaningful integration and failure-path tests. Actual latest summary: **28 passed, 1 warning in 17.36s**.
+- tests/: meaningful integration and failure-path tests. Actual latest summary: **28 passed, 1 warning in 16.27s**.
 - docs/AI_A2_2527343_REPORT.pdf: seven-page technical report; PERSONAL_REVIEW.md: required personal interpretation worksheet.
 - evidence/: actual command/API/reproducibility captures, PDF test log, unsigned declaration, AI disclosure and recording checklist.
 
@@ -59,10 +59,12 @@ Row IDs are zero-based CSV data-row positions before deduplication. CSV regressi
 
 **PROVISIONAL**: authentic continuous unedited <=2-minute video, signature, and personally rewritten error/cluster interpretations are pending. Review AI_USE.md and the declaration for truthfulness. No personal reflection or video is claimed complete. Deadline: 19 October 2026, 5:00 PM CAT; Moodle timestamp is authoritative.
 
-Repository URL: no remote configured at preparation time. Obtain the real current commit using `git log -1 --format=%H`; the package's evidence/FINAL_COMMIT.txt records the packaged implementation commit. A commit cannot embed its own hash in its tracked README. After personal edits, commit again and record the final hash for the video.
+Repository URL: https://github.com/Sauverain/AI_A2_2527343
+
+Obtain the current commit using `git log -1 --format=%H`; the package's evidence/FINAL_COMMIT.txt records the packaged implementation commit. After personal edits, commit again and use the final hash for the video.
 
 ```powershell
-git remote add origin <YOUR_ACTUAL_GITHUB_REPOSITORY_URL>
+git remote add origin https://github.com/Sauverain/AI_A2_2527343.git
 git push -u origin HEAD
 ```
 
